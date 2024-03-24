@@ -12,19 +12,31 @@ class PermissionPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
-              "assets/images/splash.png",
+              "assets/images/permission.png",
               scale: 3,
             ),
             const SizedBox(
               height: 32.0,
             ),
-            const Text('Require Permission'),
+            const Text(
+              'Require Permission',
+              style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black),
+            ),
             const SizedBox(
               height: 16.0,
             ),
-            const Text('''To show your black and white photos
-              we just need your folder permission.
-              We promise, we don’t take your photos.'''),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32.0),
+              child: Text('To show your black and white photos we just need your folder permission.We promise, we don’t take your photos.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey)),
+            ),
             const SizedBox(
               height: 24.0,
             ),
