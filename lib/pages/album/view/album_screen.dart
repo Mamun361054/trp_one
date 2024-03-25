@@ -63,12 +63,12 @@ class AlbumScreen extends StatelessWidget {
                               ),
                               Container(
                                 alignment: Alignment.topLeft,
-                                padding: EdgeInsets.only(left: 2.0),
+                                padding: const EdgeInsets.only(left: 2.0),
                                 child: Text(
                                   album.name ?? "Unnamed Album",
                                   maxLines: 1,
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     height: 1.2,
                                     fontSize: 16,
                                   ),
@@ -76,11 +76,11 @@ class AlbumScreen extends StatelessWidget {
                               ),
                               Container(
                                 alignment: Alignment.topLeft,
-                                padding: EdgeInsets.only(left: 2.0),
+                                padding: const EdgeInsets.only(left: 2.0),
                                 child: Text(
                                   album.count.toString(),
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     height: 1.2,
                                     fontSize: 12,
                                   ),

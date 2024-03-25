@@ -9,7 +9,9 @@ import 'package:trp_one/pages/album/bloc/album_state.dart';
 
 class AlbumBloc extends Cubit<AlbumState> {
 
-  AlbumBloc({required BuildContext context}) : super(const AlbumState());
+  AlbumBloc({required BuildContext context}) : super(const AlbumState()){
+    initAsync();
+  }
 
   Future<bool> promptPermissionSetting() async {
     if (Platform.isIOS) {
