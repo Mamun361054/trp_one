@@ -16,6 +16,35 @@ import java.util.concurrent.Executors
 
 class MainActivity : FlutterActivity() {
 
+    companion object {
+        const val imageType = "image"
+
+        const val allAlbumId = "__ALL__"
+        const val allAlbumName = "All"
+
+        val imageMetadataProjection = arrayOf(
+            MediaStore.Images.Media._ID,
+            MediaStore.Images.Media.DISPLAY_NAME,
+            MediaStore.Images.Media.TITLE,
+            MediaStore.Images.Media.WIDTH,
+            MediaStore.Images.Media.HEIGHT,
+            MediaStore.Images.Media.SIZE,
+            MediaStore.Images.Media.ORIENTATION,
+            MediaStore.Images.Media.MIME_TYPE,
+            MediaStore.Images.Media.DATE_ADDED,
+            MediaStore.Images.Media.DATE_MODIFIED
+        )
+
+        val imageBriefMetadataProjection = arrayOf(
+            MediaStore.Images.Media._ID,
+            MediaStore.Images.Media.WIDTH,
+            MediaStore.Images.Media.HEIGHT,
+            MediaStore.Images.Media.ORIENTATION,
+            MediaStore.Images.Media.DATE_ADDED,
+            MediaStore.Images.Media.DATE_MODIFIED
+        )
+    }
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         val executor: ExecutorService = Executors.newSingleThreadExecutor()
@@ -101,7 +130,7 @@ class MainActivity : FlutterActivity() {
 
     private fun getFile(mediumId: String, mediumType: String?, mimeType: String?): String? {
         return when (mediumType) {
-            PhotoGalleryPlugin.imageType -> {
+            imageType -> {
                 getImageFile(mediumId, mimeType = mimeType)
             }
 
@@ -152,7 +181,7 @@ class MainActivity : FlutterActivity() {
         highQuality: Boolean?
     ): ByteArray? {
         return when (mediumType) {
-            PhotoGalleryPlugin.imageType -> {
+            imageType -> {
                 getImageAlbumThumbnail(albumId, newest, width, height, highQuality)
             }
             else -> {
@@ -193,7 +222,7 @@ class MainActivity : FlutterActivity() {
         highQuality: Boolean?
     ): ByteArray? {
         return when (mediumType) {
-            PhotoGalleryPlugin.imageType -> {
+            imageType -> {
                 getImageThumbnail(mediumId, width, height, highQuality)
             }
 
@@ -241,7 +270,7 @@ class MainActivity : FlutterActivity() {
 
     private fun getMedium(mediumId: String, mediumType: String?): Map<String, Any?>? {
         return when (mediumType) {
-            PhotoGalleryPlugin.imageType -> {
+            imageType -> {
                 getImageMedia(mediumId)
             }
 
@@ -255,7 +284,7 @@ class MainActivity : FlutterActivity() {
         return this.context.run {
             val imageCursor = this.contentResolver.query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                PhotoGalleryPlugin.imageMetadataProjection,
+                imageMetadataProjection,
                 "${MediaStore.Images.Media._ID} = ?",
                 arrayOf(mediumId),
                 null
@@ -304,7 +333,7 @@ class MainActivity : FlutterActivity() {
             "id" to id.toString(),
             "filename" to filename,
             "title" to title,
-            "mediumType" to PhotoGalleryPlugin.imageType,
+            "mediumType" to imageType,
             "width" to width,
             "height" to height,
             "size" to size,
@@ -324,7 +353,7 @@ class MainActivity : FlutterActivity() {
         lightWeight: Boolean? = false
     ): Map<String, Any?> {
         return when (mediumType) {
-            PhotoGalleryPlugin.imageType -> {
+            imageType -> {
                 listImages(albumId, newest, skip, take, lightWeight)
             }
 
@@ -361,7 +390,7 @@ class MainActivity : FlutterActivity() {
         val media = mutableListOf<Map<String, Any?>>()
 
         this.context.run {
-            val projection = if (lightWeight == true) PhotoGalleryPlugin.imageBriefMetadataProjection else PhotoGalleryPlugin.imageMetadataProjection
+            val projection = if (lightWeight == true) imageBriefMetadataProjection else imageMetadataProjection
             val imageCursor = getImageCursor(albumId, newest, projection, skip, take)
 
             imageCursor?.use { cursor ->
@@ -401,7 +430,7 @@ class MainActivity : FlutterActivity() {
 
         return mapOf(
             "id" to id.toString(),
-            "mediumType" to PhotoGalleryPlugin.imageType,
+            "mediumType" to imageType,
             "width" to width,
             "height" to height,
             "orientation" to orientationDegree2Value(orientation),
@@ -428,7 +457,7 @@ class MainActivity : FlutterActivity() {
         take: Int?
     ): Cursor? {
         this.context.run {
-            val isSelection = albumId != PhotoGalleryPlugin.allAlbumId
+            val isSelection = albumId != allAlbumId
             val selection = if (isSelection) "${MediaStore.Images.Media.BUCKET_ID} = ?" else null
             val selectionArgs = if (isSelection) arrayOf(albumId) else null
             val orderBy = if (newest) {
@@ -474,7 +503,7 @@ class MainActivity : FlutterActivity() {
 
     private fun listAlbums(mediumType: String?): List<Map<String, Any?>> {
         return when (mediumType) {
-            PhotoGalleryPlugin.imageType -> {
+            imageType -> {
                 listImageAlbums().values.toList()
             }
             else -> {
@@ -536,9 +565,9 @@ class MainActivity : FlutterActivity() {
             }
 
             val albumLinkedMap = linkedMapOf<String, Map<String, Any>>()
-            albumLinkedMap[PhotoGalleryPlugin.allAlbumId] = hashMapOf(
-                "id" to PhotoGalleryPlugin.allAlbumId,
-                "name" to PhotoGalleryPlugin.allAlbumName,
+            albumLinkedMap[allAlbumId] = hashMapOf(
+                "id" to allAlbumId,
+                "name" to allAlbumName,
                 "count" to total
             )
             albumLinkedMap.putAll(albumHashMap)
