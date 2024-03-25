@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trp_one/pages/album/view/album_screen.dart';
 
 class PermissionPage extends StatelessWidget {
   const PermissionPage({super.key});
@@ -41,7 +42,9 @@ class PermissionPage extends StatelessWidget {
               height: 24.0,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_)=> const AlbumScreen()));
+              },
               style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xff66FFB6),
                   shape: const StadiumBorder()),
