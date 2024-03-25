@@ -10,7 +10,6 @@ class ImageViewerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime? date = medium.creationDate ?? medium.modifiedDate;
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -18,7 +17,6 @@ class ImageViewerPage extends StatelessWidget {
             onPressed: () => Navigator.of(context).pop(),
             icon: const Icon(Icons.arrow_back_ios),
           ),
-          title: date != null ? Text(date.toLocal().toString()) : null,
         ),
         body: Container(
           alignment: Alignment.center,
