@@ -13,7 +13,7 @@ class AlbumScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AlbumBloc(context: context),
+      create: (_) => AlbumBloc(),
       child: Builder(
         builder: (context){
 
